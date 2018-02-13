@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AVL", "AVL\AVL.csproj", "{06AA5FFE-2655-40A3-8E33-7F0A7B345ACB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06AA5FFE-2655-40A3-8E33-7F0A7B345ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06AA5FFE-2655-40A3-8E33-7F0A7B345ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06AA5FFE-2655-40A3-8E33-7F0A7B345ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06AA5FFE-2655-40A3-8E33-7F0A7B345ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9544DB1D-5C85-4A75-83EB-DA1F315FE117}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://ngotrung.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AVL\\AVL.csproj
+		SccProjectName1 = AVL
+		SccLocalPath1 = AVL
+	EndGlobalSection
+EndGlobal

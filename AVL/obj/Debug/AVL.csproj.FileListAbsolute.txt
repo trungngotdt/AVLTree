@@ -1,0 +1,7 @@
+c:\users\admin\source\repos\AVL\AVL\bin\Debug\AVL.exe.config
+c:\users\admin\source\repos\AVL\AVL\bin\Debug\AVL.exe
+c:\users\admin\source\repos\AVL\AVL\bin\Debug\AVL.pdb
+c:\users\admin\source\repos\AVL\AVL\obj\Debug\AVL.csprojResolveAssemblyReference.cache
+c:\users\admin\source\repos\AVL\AVL\obj\Debug\AVL.csproj.CoreCompileInputs.cache
+c:\users\admin\source\repos\AVL\AVL\obj\Debug\AVL.exe
+c:\users\admin\source\repos\AVL\AVL\obj\Debug\AVL.pdb
