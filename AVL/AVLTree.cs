@@ -10,6 +10,54 @@ namespace AVL
         where T : IComparable
     {
         public Node<T> root;
+
+
+        /// <summary>
+        /// Adds the elements of the specified collection to the AVL
+        /// </summary>
+        /// <param name="node"></param>
+        public void AddRange(Node<T>[] node)
+        {
+            foreach (var item in node)
+            {
+                Insert(item.Data);
+            }
+        }
+
+
+
+        /// <summary>
+        /// Adds the elements of the specified collection to the AVL
+        /// </summary>
+        /// <param name="node"></param>
+        public void AddRange(T[] data)
+        {
+            foreach (var item in data)
+            {
+                Insert(item);
+            }
+        }
+        /// <summary>
+        /// Find inorder predecessor of a node
+        /// </summary>
+        /// <returns></returns>
+        public object Predecessor()
+        {
+            return GetMax(root.Left);
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Find inorder successor of a node
+        /// </summary>
+        /// <returns></returns>
+        public object Successor()
+        {
+            return GetMin(root.Right);
+            //throw new NotImplementedException();
+        }
+
+
         /// <summary>
         /// Find height of node
         /// </summary>
@@ -31,18 +79,65 @@ namespace AVL
         {
             return Height(root);
         }
-        
 
-        
 
         /// <summary>
-        ///Return a minimum value in BST 
+        ///Return a minimum value in AVL
+        /// </summary>
+        /// <returns></returns>
+        public Node<T> GetMin(Node<T> node)
+        {
+            var temp = node;
+            if (node.Left == null)
+            {
+                return node;
+            }
+            while (true)
+            {
+                if (temp.Left == null)
+                {
+                    return temp;
+                }
+                else if (temp.Left != null)
+                {
+                    temp = temp.Left;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Return a maximum value in AVL
+        /// </summary>
+        /// <returns></returns>
+        public T GetMax(Node<T> node)
+        {
+            var temp = node;
+            if (node.Right == null)
+            {
+                return node.Data;
+            }
+            while (true)
+            {
+                if (temp.Right == null)
+                {
+                    return temp.Data;
+                }
+                else if (temp.Right != null)
+                {
+                    temp = temp.Right;
+                }
+            }
+        }
+
+
+        /// <summary>
+        ///Return a minimum value in AVL tree
         /// </summary>
         /// <returns></returns>
         public Node<T> GetMin()
         {
             var temp = root;
-            if (root == null)
+            if (root.Left == null)
             {
                 return root;
             }
@@ -59,14 +154,115 @@ namespace AVL
             }
         }
 
+
         /// <summary>
-        /// Return a maximum value in BST
+        /// Determines whether an element is in the AVL
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public bool Contains(Node<T> node)
+        {
+            Node<T> temp = root;
+            if (node == null)
+            {
+                return false;
+            }
+            while (temp != null)
+            {
+                if (temp.CompareTo(node) == 0)
+                {
+                    return true;
+                }
+                if (temp > node)
+                {
+                    temp = temp.Left;
+                }
+                else
+                {
+                    temp = temp.Right;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Searches for the element that matches the conditions defined by the specified
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public Node<T> FindNode(Node<T> node, T data)
+        {
+
+            Node<T> temp = root;
+            if (node == null)
+            {
+                return null;
+            }
+            while (temp != null)
+            {
+                if (temp.CompareTo(node) == 0)
+                {
+                    return temp;
+                }
+                if (temp > node)
+                {
+                    temp = temp.Left;
+                }
+                else
+                {
+                    temp = temp.Right;
+                }
+            }
+            return null;
+
+        }
+
+        /// <summary>
+        /// Searches for an parent of element that matches the conditions defined by the specified
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public Tuple<Node<T>, int> FindParent(Node<T> node)
+        {
+            int check = 0;
+            if (node == null)
+            {
+                return null;
+            }
+            Node<T> temp = root;
+            Node<T> parent = null;
+            while (temp != null)
+            {
+                if (temp.CompareTo(node) == 0)
+                {
+                    return new Tuple<Node<T>, int>(parent, check);// temp;
+                }
+                if (temp > node)
+                {
+                    parent = temp;
+                    check = -1;
+                    temp = temp.Left;
+                }
+                else
+                {
+                    parent = temp;
+                    check = 1;
+                    temp = temp.Right;
+
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Return a maximum value in AVL tree
         /// </summary>
         /// <returns></returns>
         public T GetMax()
         {
             var temp = root;
-            if (root == null)
+            if (root.Right == null)
             {
                 return root.Data;
             }
@@ -83,19 +279,20 @@ namespace AVL
             }
         }
 
-        public void Puta( T key)
+        public void Insert(T key)
         {
-            root = new Node<T>(Put(root, key));
+            root = new Node<T>(Insert(root, key));
         }
-        public Node<T> Put(Node<T> x, T key)
+
+        private Node<T> Insert(Node<T> x, T key)
         {
             if (x == null)
                 return new Node<T>(key, 0);
             int cmp = key.CompareTo(x.Data);
             if (cmp < 0)
-                x.Left = Put(x.Left, key);
+                x.Left = Insert(x.Left, key);
             else if (cmp > 0)
-                x.Right = Put(x.Right, key);
+                x.Right = Insert(x.Right, key);
             else
                 x.Data = key;
             x = Balance(x);
@@ -119,6 +316,14 @@ namespace AVL
             return DeleteMin(root);
         }
 
+
+        public Node<T> Delete(T key)
+        {
+            var x = Delete(root, key);
+            return x;
+        }
+
+
         private Node<T> Delete(Node<T> x, T key)
         {
             if (x == null) return null;
@@ -134,7 +339,7 @@ namespace AVL
                 if (x.Left == null)
                     return x.Right;
                 Node<T> t = x;
-                x = t.Right.GetMin();
+                x = GetMin(t.Right);
                 x.Right = DeleteMin(t.Right);
                 x.Left = t.Left;
             }
@@ -143,7 +348,11 @@ namespace AVL
             return x;
         }
 
-
+        /// <summary>
+        /// Keep tree's balance
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         private Node<T> Balance(Node<T> x)
         {
             if (CheckBalance(x) < -1)
@@ -160,10 +369,14 @@ namespace AVL
                 {
                     x.Left = RotateLeft(x.Left);
                 }
-                var xa = RotateRight(x);
-                x = xa;
+                x = RotateRight(x);
+
             }
             return x;
+        }
+        private int CheckBalance(Node<T> x)
+        {
+            return Height(x.Left) - Height(x.Right);
         }
 
         private Node<T> RotateLeft(Node<T> x)
@@ -185,11 +398,6 @@ namespace AVL
             return y;
         }
 
-        private int CheckBalance(Node<T> x)
-        {
-            return Height(x.Left) - Height(x.Right);
-        }
-
         private Node<T> RotateRight(Node<T> y)
         {
             Node<T> x = y.Left;
@@ -205,13 +413,12 @@ namespace AVL
             x.size = 1 + size(x.left) + size(x.right)
             ;*/
             x.HeightNode = 1 + Math.Max(Height(x.Left), Height(x.Right));
-            y.HeightNode = 1 + Math.Max(Height(y.Left), Height(y.Right));
+            x.HeightNode = 1 + Math.Max(Height(x.Left), Height(x.Right));
 
             return x;
         }
-        
 
-        
+
         public int CompareTo(object obj)
         {
             try
@@ -224,7 +431,7 @@ namespace AVL
                 throw ex;
             }
         }
-        
-    
-}
+
+
+    }
 }
