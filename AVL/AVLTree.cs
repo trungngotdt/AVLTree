@@ -11,7 +11,17 @@ namespace AVL
     {
         public Node<T> root;
 
+        public AVLTree()
+        {
+            root = null;
+        }
 
+        public AVLTree(Node<T> node )
+        {
+            root = node;
+        }
+
+        #region AddRange
         /// <summary>
         /// Adds the elements of the specified collection to the AVL
         /// </summary>
@@ -23,9 +33,7 @@ namespace AVL
                 Insert(item.Data);
             }
         }
-
-
-
+        
         /// <summary>
         /// Adds the elements of the specified collection to the AVL
         /// </summary>
@@ -37,27 +45,56 @@ namespace AVL
                 Insert(item);
             }
         }
+        #endregion        
+
+        #region GetSuccessor
+        /// <summary>
+        /// Find inorder successor of a BST
+        /// </summary>
+        /// <returns><seealso cref="Node{T}"/></returns>
+        public object Successor()
+        {
+            return Successor(root);//GetMin(root.Right);//root.Right.GetMin();
+            //throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Find inorder successor of a node 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public object Successor(Node<T> node)
+        {
+            return GetMin(node.Right);
+        }
+
+        #endregion
+
+        #region GetPredecessor
         /// <summary>
         /// Find inorder predecessor of a node
         /// </summary>
         /// <returns></returns>
-        public object Predecessor()
+        public object Predecessor(Node<T> node)
         {
-            return GetMax(root.Left);
+            return GetMax(node.Left);
             //throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Find inorder successor of a node
+        /// Find inorder predecessor of a BST
         /// </summary>
         /// <returns></returns>
-        public object Successor()
+        public object Predecessor()
         {
-            return GetMin(root.Right);
+            return Predecessor(root);
             //throw new NotImplementedException();
         }
 
 
+        #endregion
+
+        #region GetHeight
         /// <summary>
         /// Find height of node
         /// </summary>
@@ -80,15 +117,17 @@ namespace AVL
             return Height(root);
         }
 
+        #endregion
 
+        #region GetMin
         /// <summary>
-        ///Return a minimum value in AVL
+        ///Return a minimum value in node
         /// </summary>
         /// <returns></returns>
         public Node<T> GetMin(Node<T> node)
         {
             var temp = node;
-            if (node.Left == null)
+            if (node == null)
             {
                 return node;
             }
@@ -104,32 +143,6 @@ namespace AVL
                 }
             }
         }
-
-        /// <summary>
-        /// Return a maximum value in AVL
-        /// </summary>
-        /// <returns></returns>
-        public T GetMax(Node<T> node)
-        {
-            var temp = node;
-            if (node.Right == null)
-            {
-                return node.Data;
-            }
-            while (true)
-            {
-                if (temp.Right == null)
-                {
-                    return temp.Data;
-                }
-                else if (temp.Right != null)
-                {
-                    temp = temp.Right;
-                }
-            }
-        }
-
-
         /// <summary>
         ///Return a minimum value in AVL tree
         /// </summary>
@@ -137,7 +150,7 @@ namespace AVL
         public Node<T> GetMin()
         {
             var temp = root;
-            if (root.Left == null)
+            if (root == null)
             {
                 return root;
             }
@@ -154,7 +167,96 @@ namespace AVL
             }
         }
 
+        #endregion
 
+        #region GetMax
+        /// <summary>
+        /// Return a maximum value in AVL
+        /// </summary>
+        /// <returns></returns>
+        public Node< T> GetMax(Node<T> node)
+        {
+            var temp = node;
+            if (node==null)
+            {
+                return node;
+            }
+            while (true)
+            {
+                if (temp.Right == null)
+                {
+                    return temp;
+                }
+                else if (temp.Right != null)
+                {
+                    temp = temp.Right;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Return a maximum value in AVL
+        /// </summary>
+        /// <returns></returns>
+        public Node< T> GetMax()
+        {
+            return GetMax(root);
+        }
+
+        #endregion
+
+        #region Traversal
+        public void LRN(Node<T> node)
+        {
+            if (node == null)
+            {
+                return;
+            }
+            LRN(node.Left);
+            LRN(node.Right);
+            Console.WriteLine(node.Data);
+        }
+
+        public void LRN()
+        {
+            LRN(root);
+        }
+
+        public void RLN(Node<T> node)
+        {
+            if (node == null)
+            {
+                return;
+            }
+            RLN(node.Right);
+            RLN(node.Left);
+            Console.WriteLine(node.Data);
+        }
+
+        public void RLN()
+        {
+            RLN(root);
+        }
+
+        public void LNR(Node<T> node)
+        {
+            if (node == null)
+            {
+                return;
+            }
+            LNR(node.Left);
+            Console.WriteLine(node.Data);
+            LNR(node.Right);
+        }
+
+        public void LNR()
+        {
+            LNR(root);
+        }
+
+        #endregion
+
+        #region Contains
         /// <summary>
         /// Determines whether an element is in the AVL
         /// </summary>
@@ -184,17 +286,19 @@ namespace AVL
             }
             return false;
         }
+        #endregion
 
+        #region FindNode
         /// <summary>
         /// Searches for the element that matches the conditions defined by the specified
         /// </summary>
         /// <param name="node"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public Node<T> FindNode(Node<T> node, T data)
+        public Node<T> FindNode(Node<T> node)
         {
 
-            Node<T> temp = root;
+            Node<T> temp =root;
             if (node == null)
             {
                 return null;
@@ -217,6 +321,10 @@ namespace AVL
             return null;
 
         }
+
+        #endregion
+
+        #region FindParent
 
         /// <summary>
         /// Searches for an parent of element that matches the conditions defined by the specified
@@ -255,33 +363,26 @@ namespace AVL
             return null;
         }
 
-        /// <summary>
-        /// Return a maximum value in AVL tree
-        /// </summary>
-        /// <returns></returns>
-        public T GetMax()
-        {
-            var temp = root;
-            if (root.Right == null)
-            {
-                return root.Data;
-            }
-            while (true)
-            {
-                if (temp.Right == null)
-                {
-                    return temp.Data;
-                }
-                else if (temp.Right != null)
-                {
-                    temp = temp.Right;
-                }
-            }
-        }
+        #endregion
 
+        #region Insert
+
+        /// <summary>
+        /// Insert a value to
+        /// </summary>
+        /// <param name="key"></param>
         public void Insert(T key)
         {
             root = new Node<T>(Insert(root, key));
+        }
+
+        public void Insert(Node<T> node)
+        {
+            if (node==null)
+            {
+                return;
+            }
+            root = Insert(root, node.Data);
         }
 
         private Node<T> Insert(Node<T> x, T key)
@@ -301,37 +402,74 @@ namespace AVL
             return x;
         }
 
-        private Node<T> DeleteMin(Node<T> x)
+        #endregion
+
+        #region Remove
+
+        /// <summary>
+        /// Remove a element with minimum value in AVL
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        private Node<T> RemoveMin(Node<T> x)
         {
             if (x.Left == null)
                 return x.Right;
-            x.Left = DeleteMin(x.Left);
+            x.Left = RemoveMin(x.Left);
             //x.size = size(x.left) + size(x.right) + 1;
             x.HeightNode = 1 + Math.Max(Height(x.Left), Height(x.Right));
             return x;
         }
 
-        public Node<T> DeleteMin()
+        /// <summary>
+        /// Remove a minimum value in root
+        /// </summary>
+        /// <returns></returns>
+        public Node<T> RemoveMin()
         {
-            return DeleteMin(root);
+            return RemoveMin(root);
         }
 
-
-        public Node<T> Delete(T key)
+        /// <summary>
+        /// Remove a element in root -paramater is a object <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public Node<T> Remove(T key)
         {
-            var x = Delete(root, key);
+            var x = Remove(root, key);
             return x;
         }
 
+        /// <summary>
+        /// Remove a element in AVL -paramater is a object <seealso cref="Node{T}"/>
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public Node<T> Remove(Node<T> node)
+        {
+            if (node==null)
+            {
+                return root;
+            }
+            var x = Remove(node.Data);
+            return x;
+        }
 
-        private Node<T> Delete(Node<T> x, T key)
+        /// <summary>
+        /// Remove a element in AVL -paramater is a object <seealso cref="Node{T}"/>
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        private Node<T> Remove(Node<T> x, T key)
         {
             if (x == null) return null;
             int cmp = key.CompareTo(x.Data);
             if (cmp < 0)
-                x.Left = Delete(x.Left, key);
+                x.Left = Remove(x.Left, key);
             else if (cmp > 0)
-                x.Right = Delete(x.Right, key);
+                x.Right = Remove(x.Right, key);
             else
             {
                 if (x.Right == null)
@@ -339,8 +477,8 @@ namespace AVL
                 if (x.Left == null)
                     return x.Right;
                 Node<T> t = x;
-                x = GetMin(t.Right);
-                x.Right = DeleteMin(t.Right);
+                x.Data = GetMin(t.Right).Data;
+                x.Right = RemoveMin(t.Right);
                 x.Left = t.Left;
             }
             x = Balance(x);
@@ -348,8 +486,11 @@ namespace AVL
             return x;
         }
 
+        #endregion
+
+        #region Balance
         /// <summary>
-        /// Keep tree's balance
+        /// Keeping tree's balance
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
@@ -374,6 +515,12 @@ namespace AVL
             }
             return x;
         }
+
+        /// <summary>
+        /// Checking the tree is balance or nor
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         private int CheckBalance(Node<T> x)
         {
             return Height(x.Left) - Height(x.Right);
@@ -418,6 +565,7 @@ namespace AVL
             return x;
         }
 
+        #endregion
 
         public int CompareTo(object obj)
         {
